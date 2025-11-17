@@ -1,19 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Container,
-  Paper,
-  Typography,
-  TextField,
-  Button,
-  Stack,
-  Alert,
-  Grid,
-  Autocomplete,
-  MenuItem,
-} from '@mui/material';
+import { Box, Container, Paper, Typography, TextField, Button, Stack, Alert, Grid, Autocomplete, MenuItem, } from '@mui/material';
 import { Recycling, Save, ArrowBack, Scale } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getTiposResiduos } from '@/services/residuosService';
 import { useQuery } from '@tanstack/react-query';
 import { getAllCooperativas } from '@/services/cooperativaService';
@@ -36,11 +24,11 @@ export interface Empresa {
   razao_social: string;
 }
 
-export interface Coleta {
-  id_coleta: number;
-  data: string;
-  localizacao: string;
-}
+// export interface Coleta {
+//   id_coleta: number;
+//   data: string;
+//   localizacao: string;
+// }
 
 interface FormData {
   id_tipo: number | null;
@@ -70,12 +58,12 @@ const ReceberColeta = () => {
     queryFn: () => getAllEmpresas(),
   });
 
-  const { data: coletas = [] } = useQuery({
-    queryKey: ["coletas"],
-    queryFn: () => getAllColetas(),
-  });
+  // const { data: coletas = [] } = useQuery({
+  //   queryKey: ["coletas"],
+  //   queryFn: () => getAllColetas(),
+  // });
 
-
+  const { id_coleta } = useParams<{ id_coleta: string }>();
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -131,18 +119,16 @@ const ReceberColeta = () => {
     setOrigem(value);
 
     // Limpa os campos de origem quando muda
-    setFormData(prev => ({
-      ...prev,
-      id_coop: null,
-      cnpj_empresa: ''
-    }));
+    // setFormData(prev => ({
+    //   ...prev,
+    //   id_coop: null,
+    //   cnpj_empresa: ''
+    // }));
   };
 
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-
 
     setLoading(true);
 
@@ -153,8 +139,8 @@ const ReceberColeta = () => {
         peso: formData.peso,
         id_coop: formData.id_coop,
         cnpj_empresa: formData.cnpj_empresa,
-        id_coleta: formData.id_coleta,
-        peso_coletado: formData.peso, // Usa peso_coletado ou fallback para peso
+        id_coleta: id_coleta,
+        peso_coletado: formData.peso, // Usando o input de peso para passar valor pesso_coleta
       };
 
       console.log('Dados enviados:', dadosParaEnviar);
@@ -185,8 +171,9 @@ const ReceberColeta = () => {
       });
       setOrigem('nenhuma');
 
-      // Limpa mensagem de sucesso após 3 segundos
-      setTimeout(() => setSuccess(false), 3000);
+      // Mudar de tela em 1 segundos
+      setTimeout(() => setSuccess(false), 1000);
+      navigate("/receber");
 
     } catch (error) {
       console.error('Erro ao cadastrar resíduo:', error);
@@ -332,7 +319,7 @@ const ReceberColeta = () => {
                   />
 
                   {/* Peso Coletado (Opcional) */}
-                  <TextField
+                  {/* <TextField
                     fullWidth
                     label="Peso Coletado (kg)"
                     value={formData.peso_coletado || ''}
@@ -344,10 +331,10 @@ const ReceberColeta = () => {
                       step: "0.001",
                       min: "0"
                     }}
-                  />
+                  /> */}
 
                   {/* Coleta (Obrigatório) */}
-                  <Autocomplete
+                  {/* <Autocomplete
                     options={coletas.filter(c => c.status === "agendada")}
                     getOptionLabel={(option) => `#${option.cpf} - ${new Date(option.data).toLocaleDateString()}`}
                     value={coletas?.find(coleta => coleta.id_coleta === formData.id_coleta) || null}
@@ -378,7 +365,7 @@ const ReceberColeta = () => {
                         </Box>
                       </li>
                     )}
-                  />
+                  /> */}
 
                   {/* Origem do Resíduo */}
                   <TextField

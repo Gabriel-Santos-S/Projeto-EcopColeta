@@ -9,7 +9,6 @@ const Footer = () => {
         bgcolor: 'hsl(142, 71%, 15%)',
         color: 'white',
         py: 6,
-        mt: 8,
       }}
     >
       <Container maxWidth="lg">
@@ -46,11 +45,11 @@ const Footer = () => {
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <PhoneOutlined sx={{ fontSize: 20 }} />
-                <Typography variant="body2">(11) 9999-9999</Typography>
+                <Typography variant="body2">(61) 9999-9999</Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <LocationOnOutlined sx={{ fontSize: 20 }} />
-                <Typography variant="body2">São Paulo, SP</Typography>
+                <Typography variant="body2">Brasília, DF</Typography>
               </Box>
             </Stack>
           </Box>
@@ -75,7 +74,7 @@ const Footer = () => {
         
         <Box sx={{ borderTop: '1px solid rgba(255,255,255,0.1)', mt: 4, pt: 3, textAlign: 'center' }}>
           <Typography variant="body2" sx={{ opacity: 0.6 }}>
-            © 2024 EcoColeta. Todos os direitos reservados.
+            © 2025 EcoColeta. Todos os direitos reservados.
           </Typography>
         </Box>
       </Container>

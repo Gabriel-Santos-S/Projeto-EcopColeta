@@ -11,7 +11,7 @@ const HeroSection = () => {
   };
 
   const handleMinhasColetas = () => {
-    navigate("/minhasColetas")
+    navigate("/home/minhasColetas")
   };
 
   const handleMeuSaldo = () => {

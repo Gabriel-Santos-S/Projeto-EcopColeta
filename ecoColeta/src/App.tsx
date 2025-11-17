@@ -10,6 +10,10 @@ import EmpresaCadastro from './pages/EmpresaCadastro';
 import CadastraCooperativa from './components/CadastraCooperativa';
 import PontoColetaCadastro from './pages/PontoColetaCadastro';
 import ReceberColeta from './components/ReceberColeta';
+import Login from './pages/Login';
+import ReceiveCollection from './pages/ReceiveCollection';
+import { UserProvider } from './UserContext';
+import Admin from './pages/Admin';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,25 +26,31 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/minhasColetas" element={<MyColetas />} />
+    <UserProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Routes>
 
-          {/* ADMIN */}
-          <Route path="/cadastro/cadastroEmpresa" element={<EmpresaCadastro />} />
-          <Route path="/cadastro/cadastroCooperativa" element={<CadastraCooperativa />} />
-          <Route path="/cadastro/cadastroPontoColeta" element={<PontoColetaCadastro />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/home/minhasColetas" element={<MyColetas />} />
 
-          {/* Ponto Coleta */}
-          <Route path="/receber/coleta" element={<ReceberColeta />} />
+            {/* ADMIN */}
+            <Route path="/adm" element={<Admin />} />
+            <Route path="/adm/cadastroEmpresa" element={<EmpresaCadastro />} />
+            <Route path="/adm/cadastroCooperativa" element={<CadastraCooperativa />} />
+            <Route path="/adm/cadastroPontoColeta" element={<PontoColetaCadastro />} />
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+            {/* Ponto Coleta */}
+            <Route path="/receber" element={<ReceiveCollection />} />
+            <Route path="/receber/coleta/:id" element={<ReceberColeta />} />
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </UserProvider>
   </QueryClientProvider>
 );
 

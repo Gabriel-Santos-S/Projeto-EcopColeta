@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
-import {
-    Box,
-    Container,
-    Paper,
-    Typography,
-    TextField,
-    Button,
-    Stack,
-    Alert,
-    Grid,
-    MenuItem,
-} from '@mui/material';
+import { Box, Container, Paper, Typography, TextField, Button, Stack, Alert, Grid, MenuItem, } from '@mui/material';
 import { Business, Save, ArrowBack, LocationOn } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { creatCooperativa } from '@/services/cooperativaService';
@@ -151,11 +140,7 @@ const CadastrarCooperativa = () => {
 
     return (
         <Box
-            sx={{
-                minHeight: '100vh',
-                background: 'linear-gradient(135deg, hsl(142 76% 36% / 0.05), hsl(207 90% 54% / 0.05))',
-                py: 4,
-            }}
+            sx={{ minHeight: '100vh', py: 4, }}
         >
             <Container maxWidth="lg">
                 {/* Botão Voltar */}
@@ -175,7 +160,7 @@ const CadastrarCooperativa = () => {
                                 bgcolor: 'primary.main',
                                 color: 'white',
                                 borderRadius: 3,
-                                height: '100%',
+                                height: '460px',
                                 p: 4,
                                 display: 'flex',
                                 flexDirection: 'column',

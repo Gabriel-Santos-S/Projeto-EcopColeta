@@ -120,14 +120,8 @@ const CadastrarEmpresa = () => {
     };
 
     return (
-        <Box
-            sx={{
-                minHeight: '100vh',
-                background: 'linear-gradient(135deg, hsl(142 76% 36% / 0.05), hsl(207 90% 54% / 0.05))',
-                py: 4,
-            }}
-        >
-            <Container maxWidth="md">
+        <Box sx={{ minHeight: '100vh', py: 4, }}>
+            <Container maxWidth="lg">
                 {/* Botão Voltar */}
                 <Button
                     startIcon={<ArrowBack />}
@@ -144,7 +138,7 @@ const CadastrarEmpresa = () => {
                                 bgcolor: 'primary.main',
                                 color: 'white',
                                 borderRadius: 3,
-                                height: '100%',
+                                height: '460px',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',

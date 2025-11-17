@@ -48,7 +48,7 @@ const NotFound = () => {
             color="primary"
             size="large"
             startIcon={<Home />}
-            onClick={() => navigate('/')}
+            onClick={() => navigate(-1)}
             sx={{
               px: 4,
               py: 1.5,
