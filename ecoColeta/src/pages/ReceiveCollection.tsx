@@ -6,12 +6,19 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import type { Coleta } from '@/types';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getAllColetas } from '@/services/coletaServices';
 
 
 const ReceiveCollection = () => {
   const navigate = useNavigate()
   const [cpf, setCpf] = useState("");
   const [collections, setCollections] = useState<Coleta[]>([]);
+
+  const { data: coletas } = useQuery({
+          queryKey: ["coletas"],        // inclui o CPF na chave (boa prática)
+          queryFn: () => getAllColetas(),
+      });
 
   const formatCPF = (value: string) => {
     value = value.replace(/\D/g, "");
@@ -28,21 +35,21 @@ const ReceiveCollection = () => {
 
     const myCPF = cpf.replace(/\D/g, "");
     // Simulando dados para demonstração
-    const mockData: Coleta[] = [
-      {
-        id_ponto: 1,
-        cpf: '02798912105',
-        status: 'agendada',
-        data: '2025-11-17',
-      },
-      {
-        id_ponto: 2,
-        cpf: '98765432100',
-        status: 'concluida',
-        data: '2025-11-20',
-      }
-    ];
-    setCollections(mockData.filter(c => c.cpf === myCPF && c.status === 'agendada'));
+    // const mockData: Coleta[] = [
+    //   {
+    //     id_ponto: 1,
+    //     cpf: '02798912105',
+    //     status: 'agendada',
+    //     data: '2025-11-17',
+    //   },
+    //   {
+    //     id_ponto: 2,
+    //     cpf: '98765432100',
+    //     status: 'concluida',
+    //     data: '2025-11-20',
+    //   }
+    // ];
+    setCollections(coletas.filter(c => c.cpf === myCPF && c.status === 'agendada' && new Date(c.data).getDay() === new Date().getDay()));
   };
 
 
@@ -125,7 +132,7 @@ const ReceiveCollection = () => {
                         size="small"
                         startIcon={<CheckCircleIcon />}
                         onClick={() =>
-                          navigate(`/receber/coleta/${collection.id_ponto}`)
+                          navigate(`/receber/coleta/${collection.id_coleta}`)
                         }
                       >
                         Receber

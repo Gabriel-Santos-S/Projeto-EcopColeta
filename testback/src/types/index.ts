@@ -83,6 +83,34 @@ export interface ColetaResiduoJuntos{
   data_formatada: string
 }
 
+// Login tipos rotas
+export interface LoginRequest {
+  cpf: string;
+  password: string;
+}
+
+export interface UserData {
+  id: string;
+  cpf: string;
+  nome: string;
+  isAdm: boolean;
+  isUser: boolean;
+  isExterno: boolean;
+  nivel_acesso: string;
+}
+
+export interface LoginResponse {
+  user: UserData;
+}
+
+export interface UpdateNivelAcessoRequest {
+  cpf: string;
+  novo_nivel: 'adm' | 'usuario' | 'externo';
+}
+
+export interface UpdateNivelAcessoParams {
+  cpf: string;
+}
 
 
 export interface ApiResponse<T = any> {

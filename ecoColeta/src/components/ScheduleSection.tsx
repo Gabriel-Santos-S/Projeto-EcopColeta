@@ -1,11 +1,13 @@
 import { creatColeta, getAllPontoColeta } from '@/services/coletaServices';
 import type { Coleta, PontoColeta } from '@/types';
+import { useUser } from '@/UserContext';
 import { SendOutlined } from '@mui/icons-material';
 import { Alert, Autocomplete, Box, Button, Container, Paper, Snackbar, Stack, TextField, Typography } from '@mui/material';
 import { useQuery } from "@tanstack/react-query";
 import { useState } from 'react';
 
 const ScheduleSection = () => {
+  const { user } = useUser();
   const [data, setData] = useState("");
   const [time, setTime] = useState("");
   const [opne, setOpne] = useState(false);
@@ -38,7 +40,7 @@ const ScheduleSection = () => {
 
       const dadosColeta = {
         ...formData,
-        cpf: "02798912105",
+        cpf: user?.cpf,
         data: dataSolicitada,
         status: 'agendada' as const,
         id_ponto: selectedOptions ? selectedOptions.id_ponto : null,

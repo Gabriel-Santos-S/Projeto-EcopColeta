@@ -9,7 +9,8 @@ import cooperativasRoutes from './routes/cooperativas';
 import pontosColetaRoutes from './routes/pontos-coleta';
 import residuosRoutes from './routes/residuos';
 import coletasRoutes from './routes/coletas';
-import tipoResiduos from './routes/tipo-residuo'
+import tipoResiduos from './routes/tipo-residuo';
+import login from './routes/login';
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use('/api/pontos-coleta', pontosColetaRoutes);
 app.use('/api/residuos', residuosRoutes);
 app.use('/api/coletas', coletasRoutes);
 app.use('/api/tipos-residuos', tipoResiduos)
+app.use('/api/autentic', login);
 
 // Rota de saúde
 app.get('/api/health', (req, res) => {

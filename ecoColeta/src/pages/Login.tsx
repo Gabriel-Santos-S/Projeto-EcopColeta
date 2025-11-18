@@ -1,20 +1,14 @@
 import { useUser } from '@/UserContext';
 import RecyclingIcon from '@mui/icons-material/Recycling';
-import { Alert, Box, Button, Container, Divider, Link, Paper, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Container, Paper, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-interface User {
-  cpf?: string
-  isAdm?: boolean
-  isUser?: boolean
-  isExterno?: boolean
-}
 
 export default function Login() {
   const navigate = useNavigate();
   const { setUser } = useUser();
   const [erro, setErro] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     cpf: '',
     password: '',
@@ -31,34 +25,53 @@ export default function Login() {
     return value;
   };
 
+  const handleLogin = async () => {
+    setLoading(true);
+    setErro(false);
 
-  const onVerifcPassword = () => {
-    const cpfLimpo = formData.cpf.replace(/\D/g, "");
-    const correctUser = { cpf: "00000000000", senha: "000" };
-    const userRetorno: User = {
-      cpf: '00000000000',
-      isAdm: true,
-      isUser: false,
-      isExterno: false,
-    }
 
-    // Chamar api para verificar
-    const isCorrect = cpfLimpo === correctUser.cpf && formData.password === correctUser.senha;
+    try {
+      const cpfLimpo = formData.cpf.replace(/\D/g, "");
 
-    if (isCorrect) {
-      setUser(userRetorno); 
-      userRetorno.isAdm && navigate('/adm');
-      userRetorno.isUser && navigate('/home');
-      userRetorno.isExterno && navigate('/receber');
-    } else {
+      const response = await fetch('http://localhost:3000/api/autentic/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          cpf: cpfLimpo,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.data.user) {
+        setUser(data.data.user);
+        
+        // Redireciona baseado no nível de acesso
+        if (data.data.user.isAdm) {
+          navigate('/adm');
+        } else if (data.data.user.isUser) {
+          navigate('/home');
+        } else if (data.data.user.isExterno) {
+          navigate('/receber');
+        }
+      } else {
+        setErro(true);
+      }
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
       setErro(true);
+    } finally {
+      setLoading(false);
+      setFormData({ cpf: "", password: "" });
     }
-  }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onVerifcPassword();
-    setFormData({ cpf: "", password: "" });
+    handleLogin();
   };
 
   return (
@@ -111,7 +124,7 @@ export default function Login() {
 
           {erro &&
             <Alert severity="error" variant='outlined' sx={{ mb: 3 }}>
-              Senha ou usuário incorreto
+              CPF ou senha incorretos
             </Alert>
           }
 
@@ -128,6 +141,8 @@ export default function Login() {
               }}
               autoFocus
               sx={{ mb: 2 }}
+              inputProps={{ maxLength: 14 }}
+              placeholder="000.000.000-00"
             />
             <TextField
               fullWidth
@@ -139,6 +154,7 @@ export default function Login() {
               onChange={(e) => { setFormData({ ...formData, password: e.target.value }) }}
               autoComplete="current-password"
               sx={{ mb: 3 }}
+              placeholder="Digite sua senha"
             />
 
             <Button
@@ -146,42 +162,10 @@ export default function Login() {
               fullWidth
               variant="contained"
               size="large"
+              disabled={loading}
               sx={{ mb: 2, py: 1.5 }}
             >
-              Entrar
-            </Button>
-
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <Link
-                href="#"
-                variant="body2"
-                sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
-              >
-                Esqueceu a senha?
-              </Link>
-              <Link
-                href="#"
-                variant="body2"
-                sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
-              >
-                Criar conta
-              </Link>
-            </Box>
-
-            <Divider sx={{ my: 3 }}>
-              <Typography variant="body2" color="text.secondary">
-                OU
-              </Typography>
-            </Divider>
-
-            <Button
-              fullWidth
-              variant="outlined"
-              size="large"
-              onClick={() => navigate('/')}
-              sx={{ py: 1.5 }}
-            >
-              Voltar para o site
+              {loading ? 'Entrando...' : 'Entrar'}
             </Button>
           </Box>
         </Paper>

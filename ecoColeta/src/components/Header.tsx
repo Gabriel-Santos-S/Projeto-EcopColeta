@@ -1,7 +1,10 @@
 import { AppBar, Toolbar, Typography, Button, Container, Box } from '@mui/material';
-import { RecyclingOutlined, CalendarMonth, InfoOutlined } from '@mui/icons-material';
+import { RecyclingOutlined, InfoOutlined, ExitToApp } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -37,24 +40,12 @@ const Header = () => {
           
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 1 }}>
             <Button
-              onClick={() => scrollToSection('materiais')}
-              startIcon={<InfoOutlined />}
-              sx={{ 
-                color: 'text.primary',
-                '&:hover': {
-                  bgcolor: 'grey.100',
-                }
-              }}
-            >
-              Materiais
-            </Button>
-            <Button
-              onClick={() => scrollToSection('agendamento')}
-              startIcon={<CalendarMonth />}
+              onClick={() => navigate('/')}
+              startIcon={<ExitToApp />}
               variant="contained"
               color="primary"
             >
-              Agendar
+              Sair
             </Button>
           </Box>
         </Toolbar>

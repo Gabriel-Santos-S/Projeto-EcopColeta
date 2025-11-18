@@ -134,30 +134,6 @@ const HeroSection = () => {
             >
               Minhas Coletas
             </Button>
-
-            <Button
-              variant="outlined"
-              size="medium"
-              onClick={handleMeuSaldo}
-              startIcon={<AccountBalanceWallet />}
-              sx={{
-                color: 'white',
-                borderColor: 'white',
-                px: 3,
-                py: 1,
-                fontSize: '1rem',
-                fontWeight: 500,
-                borderRadius: '25px',
-                '&:hover': {
-                  bgcolor: 'rgba(255,255,255,0.1)',
-                  borderColor: 'white',
-                  transform: 'translateY(-1px)',
-                },
-                transition: 'all 0.3s ease',
-              }}
-            >
-              Meu Saldo
-            </Button>
           </Stack>
         </Box>
       </Container>

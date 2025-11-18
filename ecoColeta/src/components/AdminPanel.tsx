@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import BusinessIcon from "@mui/icons-material/Business";
@@ -22,7 +21,7 @@ export default function AdminPanel() {
     {
       title: "Cadastrar Ponto de Coleta",
       icon: <AddLocationAltIcon sx={{ fontSize: 50 }} />,
-      route: "/adm/cadastroCooperativa",
+      route: "/adm/cadastroPontoColeta",
     },
   ];
 

@@ -1,19 +1,25 @@
 import { getCpfColetaResiduo } from '@/services/coletaServices';
-import { CalendarToday, LocationOn, Recycling, Search } from '@mui/icons-material';
-import { Box, Card, CardContent, Chip, Container, Grid, InputAdornment, MenuItem, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { useUser } from '@/UserContext';
+import { ArrowBack, CalendarToday, LocationOn, Recycling, Search } from '@mui/icons-material';
+import { Box, Button, Card, CardContent, Chip, Container, Grid, InputAdornment, MenuItem, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const TabelColetas = () => {
+    const { user } = useUser();
+    const navigate = useNavigate()
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState<string>('todos');
     const [tipoFilter, setTipoFilter] = useState<string>('todos');
 
     const { data: dados } = useQuery({
-        queryKey: ["dados"],
-        queryFn: () => getCpfColetaResiduo("02798912105"),
+        queryKey: ["dados", user?.cpf],        // inclui o CPF na chave (boa prática)
+        queryFn: () => getCpfColetaResiduo(user!.cpf),
+        enabled: !!user?.cpf,                 // só executa quando user.cpf existir
     });
+    console.log(user?.cpf);
 
 
     // Filtra as coletas
@@ -80,7 +86,15 @@ const TabelColetas = () => {
                 py: 4,
             }}
         >
+
             <Container maxWidth="lg">
+                <Button
+                    startIcon={<ArrowBack />}
+                    onClick={() => navigate(-1)}
+                    sx={{ mb: 3, color: 'text.secondary' }}
+                >
+                    Voltar
+                </Button>
                 {/* Cabeçalho */}
                 <Box sx={{ mb: 4, textAlign: 'center' }}>
                     <Typography
@@ -203,7 +217,7 @@ const TabelColetas = () => {
                         </Card>
                     </Grid>
                 </Grid>
-                
+
 
                 {/* Filtros */}
                 <Paper

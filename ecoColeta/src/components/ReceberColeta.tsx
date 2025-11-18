@@ -63,7 +63,7 @@ const ReceberColeta = () => {
   //   queryFn: () => getAllColetas(),
   // });
 
-  const { id_coleta } = useParams<{ id_coleta: string }>();
+  const { id } = useParams<{ id: string }>();
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -78,6 +78,7 @@ const ReceberColeta = () => {
     id_coleta: null,
     peso_coletado: null,
   });
+console.log(id);
 
   const handleChange = (field: keyof FormData) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -139,7 +140,7 @@ const ReceberColeta = () => {
         peso: formData.peso,
         id_coop: formData.id_coop,
         cnpj_empresa: formData.cnpj_empresa,
-        id_coleta: id_coleta,
+        id_coleta: id,
         peso_coletado: formData.peso, // Usando o input de peso para passar valor pesso_coleta
       };
 
